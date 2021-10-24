@@ -15,6 +15,7 @@ export class DesignationComponent implements OnInit {
   // @ property declaration
   // -----------------------------------------------------------------------------------------------------
 
+  message: string;
   designationForm: FormGroup;
   model: Designation =  new Designation();
   modelList: Designation[] = new Array();
@@ -56,28 +57,31 @@ export class DesignationComponent implements OnInit {
     });
   }
 
-  onSubmit(): any{
+  submit(): any{
       if(this.designationForm.value.id){
           this.generateModel(false);
           this.service.update(this.model, this.model.id).subscribe(res => {
+              this.message = 'Update Success';
               this.getAll();
-              this.onClear();
+              this.initFormValue();
           }, error => {
               console.log(error)
           });
       }else{
           this.generateModel(true);
           this.service.create(this.model).subscribe(res => {
+              this.message = 'Save Success';
               this.getAll();
-              this.onClear();
+              this.initFormValue();
           }, error => {
               console.log(error)
           });
       }
   }
 
-  onDelete(row: Designation): any{
+  delete(row: Designation): any{
     this.service.delete(row.id).subscribe(res => {
+      this.message = 'Delete Success';
       this.getAll();
     }, error => {
       console.log(error)
@@ -89,7 +93,7 @@ export class DesignationComponent implements OnInit {
   // @ View functionality
   // -----------------------------------------------------------------------------------------------------
 
-  onEdit(row: Designation): any{
+  edit(row: Designation): any{
     this.designationForm = this.formBuilder.group({
       id: [row.id, ''],
       name: [row.name, [Validators.required]],
@@ -109,8 +113,9 @@ export class DesignationComponent implements OnInit {
     this.model.active = this.designationForm.value.active;
   }
 
-  onClear(): any{
+  clear(): any{
     this.initFormValue();
+    this.message = '';
   }
 
 }
