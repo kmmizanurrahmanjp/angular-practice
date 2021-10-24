@@ -1,0 +1,14 @@
+<h1>Designation Form</h1>
+
+<form [formGroup]="designationForm" (ngSubmit)="onSave()">
+    <mat-form-field >
+        <mat-label>ID</mat-label>
+        <input formControlName="id" matInput>
+    </mat-form-field>
+    <mat-form-field >
+        <mat-label>Designation</mat-label>
+        <input formControlName="name" matInput>
+    </mat-form-field>
+    <mat-checkbox formControlName="active">Active</mat-checkbox>
+    <button type="submit" [disabled]="!designationForm.valid">Submit</button>
+</form>
