@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Designation } from '../model/designation';
@@ -8,30 +8,27 @@ import { Designation } from '../model/designation';
 })
 export class DesignationService {
 
-  DESIGNATION_URL = 'http://192.168.1.155:9090/hr/desgApi/';
-  constructor(
-    private httpClient: HttpClient
-  ) { 
+  BASE_URL = 'http://192.168.1.155:9090';
+  API_URL = this.BASE_URL + '/hr/desgApi/';
 
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  create(model: Designation): Observable<Designation> {
+    return this.http.post<Designation>( this.API_URL, model);
   }
 
+  update(model: Designation, id: number): Observable<Designation> {
+      return this.http.put<Designation>( this.API_URL + '/'+ id, model);
+  }
 
-    create(model: Designation): Observable<Designation> {
-      return this.httpClient.post<Designation>( this.DESIGNATION_URL, model);
-    }
+  delete(id: number): Observable<any> {
+      return this.http.delete<any>( this.API_URL + '/' + id);
+  }
 
-    // update(i: I): Observable<CommonResponseObject<I>> {
-    //     return this.httpClient.put<CommonResponseObject<I>>( this._BASE_URL, i);
-    // }
+  getList(): Observable<any> {
+      return this.http.get<any>( this.API_URL);
+  }
 
-    // delete(i: I): Observable<CommonResponseObject<I>> {
-    //     const httpOptions = {
-    //         headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: i
-    //     };
-    //     return this.httpClient.delete<CommonResponseObject<I>>( this._BASE_URL, httpOptions);
-    // }
-
-    // getList(): Observable<CommonResponseList<I>> {
-    //     return this.httpClient.get<CommonResponseList<I>>( this._BASE_URL);
-    // }
 }

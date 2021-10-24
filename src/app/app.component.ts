@@ -7,9 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'test-project';
-  disable: boolean = true;
-
-  onClick(): any{
-    this.disable = false;
-  }
 }
